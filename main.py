@@ -1,3 +1,5 @@
+#! /Users/adityahegde/opt/anaconda3/bin/python3.9
+
 # Modules for accessing api and getting data
 import requests
 from pprint import pprint
@@ -25,19 +27,22 @@ class xkcd:
     transcript = metadata['transcript']
     year = metadata['year']
     c_url = response
+    js = response.json()
 
 
     def sh(self):
+        metadata = self.metadata
         img_data = requests.get(self.img_url).content
-        with open('image_name.jpg', 'wb') as handler:
+        with open(f"{metadata['safe_title']}_{metadata['num']}.jpg", 'wb') as handler:
             handler.write(img_data)
 
-        im = Image.open(r"image_name.jpg")
+        im = Image.open(f"{metadata['safe_title']}_{metadata['num']}.jpg")
         im.show()
 
 
 comic = xkcd()
 pprint(f'Title : {comic.title} - {comic.num}')
 pprint(comic.c_url.url)
+pprint(comic.js)
 pprint(comic.img_url)
 comic.sh()
